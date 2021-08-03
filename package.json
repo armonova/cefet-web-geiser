@@ -1,0 +1,26 @@
+{
+  "name": "cefet-web-geiser",
+  "version": "1.0.0",
+  "description": "tp10",
+  "main": "index.js",
+  "type": "module",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/armonova/cefet-web-geiser.git"
+  },
+  "author": "armonova",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/armonova/cefet-web-geiser/issues"
+  },
+  "homepage": "https://github.com/armonova/cefet-web-geiser#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
