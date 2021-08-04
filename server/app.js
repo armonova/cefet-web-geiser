@@ -1,29 +1,29 @@
 // importação de dependência(s)
 import express from 'express';
+import { readFileSync } from 'fs'
+
 var app = express();
 
 app.use(express.static('client'));
 
 // variáveis globais deste módulo
 const PORT = 3000
-const db = {}
-
-app.listen(PORT, () => {
-    console.log('listening: http://localhost:' + PORT);
-})
+var db = {};
 
 
 // carregar "banco de dados" (data/jogadores.json e data/jogosPorJogador.json)
 // você pode colocar o conteúdo dos arquivos json no objeto "db" logo abaixo
 // dica: 1-4 linhas de código (você deve usar o módulo de filesystem (fs))
-
-
+// app.set('view engine', 'hbs');
+db.jogadores = JSON.parse(readFileSync('server/data/jogadores.json'));
 
 
 // configurar qual templating engine usar. Sugestão: hbs (handlebars)
 //app.set('view engine', '???qual-templating-engine???');
 //app.set('views', '???caminho-ate-pasta???');
 // dica: 2 linhas
+app.set('view engine', 'hbs');
+app.set('views', 'server/views');
 
 
 // EXERCÍCIO 2
@@ -31,7 +31,16 @@ app.listen(PORT, () => {
 // dados do banco de dados "data/jogadores.json" com a lista de jogadores
 // dica: o handler desta função é bem simples - basta passar para o template
 //       os dados do arquivo data/jogadores.json (~3 linhas)
-
+app.get('/', (request, response) => {
+    response.render('index.hbs', db.jogadores, (err, html) => {
+        if (err) {
+            response.status(500).send(`Error: ${err}`);
+        }
+        else {
+            response.send(html);
+        }
+    });
+});
 
 
 // EXERCÍCIO 3
@@ -48,3 +57,6 @@ app.listen(PORT, () => {
 
 // abrir servidor na porta 3000 (constante PORT)
 // dica: 1-3 linhas de código
+app.listen(PORT, () => {
+    console.log('listening: http://localhost:' + PORT);
+})
