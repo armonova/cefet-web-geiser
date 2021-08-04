@@ -4,8 +4,6 @@ import { readFileSync } from 'fs'
 
 var app = express();
 
-app.use(express.static('client'));
-
 // variáveis globais deste módulo
 const PORT = 3000
 var db = {};
@@ -48,11 +46,24 @@ app.get('/', (request, response) => {
 // jogador, usando os dados do banco de dados "data/jogadores.json" e
 // "data/jogosPorJogador.json", assim como alguns campos calculados
 // dica: o handler desta função pode chegar a ter ~15 linhas de código
+app.get('/jogador/:numero_identificador/', (request, response) => {
+    const jogador = db.jogadores.players.find(j => j.steamid == numero_identificador)
+    console.log(jogador)
+    response.render('jogador.hbs', jogador, (err, html) => {
+        if (err) {
+            response.status(500).send(`Error: ${err}`);
+        }
+        else {
+            response.send(html);
+        }
+    });
+});
 
 
 // EXERCÍCIO 1
 // configurar para servir os arquivos estáticos da pasta "client"
 // dica: 1 linha de código
+app.use(express.static('client'));
 
 
 // abrir servidor na porta 3000 (constante PORT)
